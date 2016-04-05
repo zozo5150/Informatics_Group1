@@ -40,6 +40,8 @@
 if (isset($_POST['submit'])) {
 
 	// get data from the input fields
+	$firstname = $_POST['fname'];
+	$lastname = $_POST['lname'];
 	$email = $_POST['email'];
 	$password1 = $_POST['password1'];
 	$password2 = $_POST['password2'];
@@ -66,21 +68,21 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 	// set up my query
-	$query = "SELECT email FROM hw5Users WHERE email='$email';";
+	$query = "SELECT email FROM Employee WHERE email='$email';";
 	
 	// run the query
 	$result = queryDB($query, $db);
 	
 	// check if the email is there
 	if (nTuples($result) > 0) {
-		punt("The email address $email is already in the database");
+		punt("The email address $email already exists");
 	}
 	
 	// generate hashed password
 	$hashedPass = crypt($password1, getSalt());
 	
 	// set up my query
-	$query = "INSERT INTO hw5Users(email, hashedPass) VALUES ('$email', '$hashedPass');";
+	$query = "INSERT INTO Employee(LastName, FirstName, email, hashedPass) VALUES ('$lastname', '$firstname', '$email', '$hashedPass');";
 	
 	// run the query
 	$result = queryDB($query, $db);
@@ -88,26 +90,26 @@ if (isset($_POST['submit'])) {
 	// tell users that we added the player to the database
 	echo "<div class='panel panel-default'>\n";
 	echo "\t<div class='panel-body'>\n";
-    echo "\t\tThe user " . $email . " was added to the database\n";
+    echo "\t\tAccount with email " . $email . " was added to the database\n";
 	echo "</div></div>\n";
 	
 }
 ?>
 
-<!-- Form to enter club teams -->
+<!-- Form to enter Users -->
 <div class="row">
 <div class="col-xs-12">
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
 <div class="form-group">
-	<label for="Fname">First Name</label>
-	<input type="text" class="form-control" name="Fname"/>
+	<label for="fname">First Name</label>
+	<input type="text" class="form-control" name="fname"/>
 </div>
 
 <div class="form-group">
-	<label for="Lname">Last Name</label>
-	<input type="text" class="form-control" name="Lname"/>
+	<label for="lname">Last Name</label>
+	<input type="text" class="form-control" name="lname"/>
 </div>
 
 <div class="form-group">
