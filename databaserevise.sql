@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS Users  ;
+DROP TABLE IF EXISTS Employer;
+DROP TABLE IF EXISTS Jobs ;
+DROP TABLE IF EXISTS Hours ;
+DROP TABLE IF EXISTS Paycheck;
+
+
 CREATE TABLE Users
 (
 	UserID INT NULL AUTO_INCREMENT,
@@ -5,9 +12,10 @@ CREATE TABLE Users
 	FirstName varchar(255),
 	email varchar(255), 
 	hashedPass varchar(255), 
-	PRIMARY KEY (UserID) 
+	PRIMARY KEY (UserID), 
 	UserPerm tinyint
 ); 
+
 
 CREATE TABLE Employer
 (
@@ -26,7 +34,7 @@ CREATE TABLE Employer
 CREATE TABLE Jobs
 (
 	JobID INT NULL AUTO_INCREMENT, 
-	EmployeeID INT NOT NULL,
+	UserID INT NOT NULL,
 	EmployerID int, 
 	Wage decimal(4,2),
 	PRIMARY KEY (JobID),
@@ -36,7 +44,7 @@ CREATE TABLE Jobs
 
 CREATE TABLE Hours
 ( 
-	EmployeeID INT, 
+	UserID INT, 
 	hourID INT NULL AUTO_INCREMENT, 
 	hoursReported decimal(4,2), 
 	workDate date, 
@@ -54,40 +62,3 @@ CREATE TABLE Paycheck
 	PRIMARY KEY (PaycheckID),
 	FOREIGN KEY (hoursID) REFERENCES Hours(hoursID)
 ); 
-
-
--- Advice: convert weekly reports from employee into multiple individual
--- days, meaning you can lose weekID and stick to hourID where each record
--- represents a single date.
-
--- Advice: use DATE or TIMESTAMP (or similar) datatype for all calendar 
--- entries here and also in Paycheck. You will find it easier to compare
--- dates using the builtin type.
-
-
--- Decide how to do permissions/authentication. You have two types of
--- users, Employees and Admins. Having two different types of tables
--- is one approach, and it is simple and clean. Alternatively, give 
--- everyone an entry in the EMployee table -- there's nothing special
--- about it (what makes one an employee is having an entry in the Jobs
--- table!). This is even simpler, but you might want to rename the table
--- User or similar, since it is no longer an Employee only.
-
--- The other thing you'll need is some sort of authentication/permission 
--- system. Use a TINYINT to specify what permissions each user might have.
--- so for example 0=root, 1=nfp employee, 2=employee or maybe something
--- more fine grained if you need it 0=roo 1=nfp manager 2=nfp employee 
--- 3=employee and so on. You need to ask yourselves what types of things
--- each differnt kind of login is entitled to do.
-
--- I would use the TINYINT in the User (or EMployee) table, and it should
--- default to the lowest level of access (usually the highest integer you
--- allow).
-
-
--- CREATE TABLE Admin
--- (
---	adminID INT NULL AUTO_INCREMENT, 
---	adminEmail varchar(255), 
---	adminPass varchar(255), 
--- ); 
