@@ -1,3 +1,68 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+	include_once('hashutil.php');
+?>
+
+<?php
+// Back to PHP to perform the search if one has been submitted.
+
+if (isset($_POST['submit'])) {
+	
+	
+
+	// get data from the input fields
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	
+	
+	// check to make sure we have an email
+	if (!$email) {
+		header("Location: login.php");
+	}
+	
+	if (!$password) {
+		header("Location: login.php");
+	}
+
+	// check if user is in the database
+	// connect to database
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	// set up my query
+	$query = "SELECT email, hashedPass FROM Users WHERE email='$email';";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	
+	// check if the email is there
+	if (nTuples($result) > 0) {
+		$row = nextTuple($result);
+		
+		if ($row['hashedPass'] == crypt($password, $row['hashedPass'])) {
+			// Password is correct
+			if (session_start()) {
+				$_SESSION['email'] = $email;
+				if ($row['UserPerm'] == 0)
+					header('Location: inputhours.php');
+				if ($row['UserPerm'] == 1)
+					header('Location: admin.php');
+			} else {
+				punt("Unable to create session");
+			}
+		} else {
+			// Password is not correct
+			punt('The password you entered is incorrect');
+		}
+	} else {
+		punt("The account with email '$email' does not exist");
+	}	
+	
+}
+
+?>
+
 <html>
 <head>
 	<title>
