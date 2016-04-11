@@ -44,10 +44,12 @@ if (isset($_POST['submit'])) {
 			// Password is correct
 			if (session_start()) {
 				$_SESSION['email'] = $email;
-				if ($row['UserPerm'] == 0)
+				if ($row['UserPerm'] == 0){
 					header('Location: inputhours.php');
-				if ($row['UserPerm'] == 1)
+				}
+				if ($row['UserPerm'] == 1){
 					header('Location: admin.php');
+				}
 			} else {
 				punt("Unable to create session");
 			}
