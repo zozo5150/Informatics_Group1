@@ -56,13 +56,13 @@
 
 
 <div class="form-group">
-	<label for="password1">Password</label>
-	<input type="password" class="form-control" placeholder="Password (Case Sensitive)"name="password1"/>
+	<label for="password1">Enter Paycheck Amount</label>
+	<input type="password" class="form-control" placeholder="Ex) 245.23 "name="password1"/>
 </div>
 
 <div class="form-group">
-	<label for="password2">Please enter password again</label>
-	<input type="password" class="form-control" placeholder="Password (Case Sensitive)" name="password2"/>
+	<label for="password2">Enter Paycheck Hours</label>
+	<input type="password" class="form-control" placeholder="Ex) 48.00" name="password2"/>
 </div>
 
 
