@@ -47,9 +47,6 @@
 	<input type="input" class="form-control" Placeholder="Ex) The University of Iowa " name="fname"/>
 </div>
 
-<div class="form-group">
-        <label for="streetaddress">Enter Employer Street Address" </label>
-        <input type="input" class="form-controL" placeholder="Ex) 108 Calvin Hall" />
         
 <div class="form-group">
 	<label for="password1">Enter Employer City</label>
