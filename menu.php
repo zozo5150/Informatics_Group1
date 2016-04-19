@@ -61,7 +61,7 @@
 
     <li<?php if($menuHighlight == 0) { echo ' class="active"';} ?>> <a href="paycheck.php">Enter Paycheck</a></li>
 
-    <li<?php if($menuHighlight == 1) { echo ' class="active"';} ?>> <a href="add_Hours.php">Add Hours</a></li>
+    <li<?php if($menuHighlight == 1) { echo ' class="active"';} ?>> <a href="add_hours.php">Add Hours</a></li>
 
     <li<?php if($menuHighlight == 2) { echo ' class="active"';} ?>> <a href="add_employer.php">Add Job</a></li>
     
