@@ -1,4 +1,11 @@
 
+<?php
+	$menuHighlight=0; 
+	$headtitle="Enter Paycheck";
+	include_once("menu.php");
+?>
+
+
 <html>
 <head>
 	<title>
@@ -24,17 +31,6 @@
 <body>
 
 <div class="container" >
-
-<!-- Page header -->
-<div class="row">
-<div class="col-xs-12">
-<div class="page-header">
-	<h1> Enter Paycheck </h1>
-	<p><a href="login.php" class="btn btn-primary" role="button">Login</button></a>
-            <a href="add_employer.php" class="btn btn-primary" role="button">Enter Employer</button></a></p>
-</div>
-</div>
-</div>
 
 
 <div align="center" >
