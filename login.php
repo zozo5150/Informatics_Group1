@@ -8,8 +8,6 @@
 // Back to PHP to perform the search if one has been submitted.
 
 if (isset($_POST['submit'])) {
-	
-	
 
 	// get data from the input fields
 	$email = $_POST['email'];
@@ -27,10 +25,10 @@ if (isset($_POST['submit'])) {
 
 	// check if user is in the database
 	// connect to database
-	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
 	// set up my query
-	$query = "SELECT email, hashedPass FROM Users WHERE email='$email';";
+	$query = "SELECT email, hashedPass, UserPerm FROM Users WHERE email='$email';";
 	
 	// run the query
 	$result = queryDB($query, $db);
@@ -44,8 +42,10 @@ if (isset($_POST['submit'])) {
 			// Password is correct
 			if (session_start()) {
 				$_SESSION['email'] = $email;
+				$_SESSION['UserPerm'] = $row['UserPerm'];
+				echo $UserPerm;
 				if ($row['UserPerm'] == 0){
-					header('Location: inputhours.php');
+					header('Location: paycheck.php');
 				}
 				if ($row['UserPerm'] == 1){
 					header('Location: admin.php');
@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
 			}
 		} else {
 			// Password is not correct
-			punt('The password you entered is incorrect');
+			header("Location: login.php");
 		}
 	} else {
 		punt("The account with email '$email' does not exist");
@@ -113,8 +113,8 @@ if (isset($_POST['submit'])) {
 </div>
 
 <!-- <button type="submit" class="btn btn-default" name="submit">Login</button> -->
-<button type="button" class="btn btn-primary">Login</button>
-<button type="button" class="btn btn-warning">Register</button>
+<button type="submit" class="btn btn-primary" name="submit">Login</button>
+<a href="register.php" class="btn btn-warning" role="button">Register</a>
 
 
 </form>

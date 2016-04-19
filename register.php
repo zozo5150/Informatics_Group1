@@ -6,7 +6,7 @@
 <html>
 <head>
 	<title>
-		"Register"
+		Register
 	</title>
 
 	<!-- Following three lines are necessary for running Bootstrap -->
@@ -29,8 +29,8 @@
 <div class="row">
 <div class="col-xs-12">
 <div class="page-header">
-	<h1>"Register User "</h1>
-	<p><a href="login.php">Login</a></p>
+	<h1>Register Account</h1>
+	<p><a href="login.php" class="btn btn-primary" role="button">Login</a></p>
 </div>
 </div>
 </div>
@@ -65,10 +65,10 @@ if (isset($_POST['submit'])) {
 
 	// check if email already in database
 		// connect to database
-	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
 	// set up my query
-	$query = "SELECT email FROM Employee WHERE email='$email';";
+	$query = "SELECT email FROM Users WHERE email='$email';";
 	
 	// run the query
 	$result = queryDB($query, $db);
@@ -82,16 +82,14 @@ if (isset($_POST['submit'])) {
 	$hashedPass = crypt($password1, getSalt());
 	
 	// set up my query
-	$query = "INSERT INTO Employee(LastName, FirstName, email, hashedPass) VALUES ('$lastname', '$firstname', '$email', '$hashedPass');";
+	$query = "INSERT INTO Users(LastName, FirstName, email, hashedPass) VALUES ('$lastname', '$firstname', '$email', '$hashedPass');";
 	
 	// run the query
 	$result = queryDB($query, $db);
 	
-	// tell users that we added the player to the database
-	echo "<div class='panel panel-default'>\n";
-	echo "\t<div class='panel-body'>\n";
-    echo "\t\tAccount with email " . $email . " was added to the database\n";
-	echo "</div></div>\n";
+	//Go to add job page
+	header('Location: add_employer.php');
+	
 	
 }
 ?>
@@ -127,7 +125,7 @@ if (isset($_POST['submit'])) {
 	<input type="password" class="form-control" name="password2"/>
 </div>
 
-<button type="submit" class="btn btn-default" name="submit">Add</button>
+<button type="submit" class="btn btn-warning" name="submit">Register</button>
 
 </form>
 
