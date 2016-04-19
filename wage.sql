@@ -21,7 +21,8 @@ CREATE TABLE Users
 CREATE TABLE Employer
 (
 	EmployerID INT AUTO_INCREMENT, 
-	employer varchar(255), 
+	employer varchar(255),
+	employerCity varchar(255), 
 	employerState varchar(255), 
 	employerZip int,
 	PRIMARY KEY (EmployerID) 
