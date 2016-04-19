@@ -44,7 +44,7 @@
  
 <div class="form-group">
 	<label for="password1">Enter Employer Name</label>
-	<input type="date" class="form-control" Placeholder="Ex) The University of Iowa " name="fname"/>
+	<input type="input" class="form-control" Placeholder="Ex) The University of Iowa " name="fname"/>
 </div>
 
 <div class="form-group">
