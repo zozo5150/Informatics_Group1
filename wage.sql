@@ -14,7 +14,7 @@ CREATE TABLE Users
 	email varchar(255), 
 	hashedPass varchar(255), 
 	PRIMARY KEY (UserID), 
-	UserPerm tinyint
+	UserPerm tinyint default 0
 ); 
 
 

@@ -1,3 +1,9 @@
+<?php
+	$menuHighlight=2; 
+	$headtitle="Enter Employer";
+	include_once("menu.php");
+	$UserID= $_SESSION['UserID'];
+?>
 
 <html>
 <head>
@@ -43,7 +49,7 @@
 
 <div class="form-group">
         <label for="streetaddress">Enter Employer Street Address" </label>
-        <input type="input" class="form-controL" placeholder="Ex) 108 Calivin Hall" />
+        <input type="input" class="form-controL" placeholder="Ex) 108 Calvin Hall" />
         
 <div class="form-group">
 	<label for="password1">Enter Employer City</label>

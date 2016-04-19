@@ -41,24 +41,24 @@
 </div>
  
 <div class="form-group">
-	<label for="password1">Enter Paycheck Start Date</label>
-	<input type="date" class="form-control" name="fname"/>
+	<label for="startDate">Enter Paycheck Start Date</label>
+	<input type="date" class="form-control" name="startDate"/>
 </div>
 
 <div class="form-group">
-        <label for="password1">Enter Paycheck End Date</label>
-	<input type="date" class="form-control" name="lname"/>
+        <label for="endDate">Enter Paycheck End Date</label>
+	<input type="date" class="form-control" name="endDate"/>
 </div>
 
 
 <div class="form-group">
-	<label for="password1">Enter Paycheck Amount</label>
-	<input type="password" class="form-control" placeholder="Ex) 245.23 "name="password1"/>
+	<label for="amount">Enter Paycheck Amount</label>
+	<input type="text" class="form-control" placeholder="Ex) 245.23 "name="amount"/>
 </div>
 
 <div class="form-group">
-	<label for="password2">Enter Paycheck Hours</label>
-	<input type="password" class="form-control" placeholder="Ex) 48.00" name="password2"/>
+	<label for="hours">Enter Paycheck Hours</label>
+	<input type="text" class="form-control" placeholder="Ex) 48.00" name="hours"/>
 </div>
 
 

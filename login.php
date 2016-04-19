@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
 			if (session_start()) {
 				$_SESSION['email'] = $email;
 				$_SESSION['UserPerm'] = $row['UserPerm'];
-				echo $UserPerm;
+				$_SESSION['UserID'] = $row['UserID'];
 				if ($row['UserPerm'] == 0){
 					header('Location: paycheck.php');
 				}
