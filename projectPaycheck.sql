@@ -18,6 +18,6 @@ CREATE TABLE Paycheck
 
 -- Add some sample data
 
-INSERT INTO Paycheck(PaycheckID, JobID, PaycheckHours, PayStart, PayEnd, AmountPaid) VALUES ('Buffon', 'Gianluigi', 1, 'Italy',);
+INSERT INTO Paycheck(PaycheckID, JobID, PaycheckHours, PayStart, PayEnd, AmountPaid) VALUES ('Buffon', 'Gianluigi', 1, 'Italy');
 INSERT INTO Paycheck(PaycheckID, JobID, PaycheckHours, PayStart, PayEnd, AmountPaid) VALUES ('Buffon', 'Gianluigi', 2, 'Italy');
 INSERT INTO Paycheck(PaycheckID, JobID, PaycheckHours, PayStart, PayEnd, AmountPaid) VALUES ('Buffon', 'Gianluigi', 3, 'Italy');
