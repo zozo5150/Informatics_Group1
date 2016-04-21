@@ -1,45 +1,60 @@
 
 <?php
+	include_once("dbutils.php");
+	include_once("config.php");
 	$menuHighlight=0; 
 	$headtitle="Enter Paycheck";
+	session_start();
+	$email= $_SESSION['email'];
+	include_once("jobList.php");
 	include_once("menu.php");
 ?>
 
+<?php
 
-<html>
-<head>
-	<title>
-		Enter Paycheck
-	</title>
-
-	<!-- Following three lines are necessary for running Bootstrap -->
+if (isset($_POST['submit'])) {
+	// get data from the input fields
+	$jobID = $_POST['job'];
+	$hours = $_POST['hours'];
+	$amount = $_POST['amount'];
+	$startDate = $_POST['startDate'];
+	$endDate = $_POST['endDate'];
 	
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+	// check to make sure we have an email
+	if (!$jobID) {
+		header("Location: login.php");
+	}
+	
+	if (!$hours) {
+		header("Location: login.php");
+	}
 
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	// check if user has worked that date already
+	// connect to database
+	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
+	
+	// set up my query
+	$query = "INSERT INTO Paycheck(JobID, PaycheckHours, PayStart, PayEnd, AmountPaid) VALUES ('$jobID', '$hours', '$startDate', '$endDate', '$amount');";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+}
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>	
-
-        <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
-        <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
-
-</head>
-
-<body>
-
+?>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <div class="container" >
 
 
-<div align="center" >
-<select name="Select Job">
-  <option value="volvo">Job 1 - University of Iowa</option>
-  <option value="saab">Job 2 - Best Buy</option>
-</select>
+<div class="form-group">
+	<label for="job">Employer</label>
+	<select class="form-control" name="job">
+	<?php echo $jobOptions; ?>
+	</select>
 </div>
- 
+</div>
+
 <div class="form-group">
 	<label for="startDate">Enter Paycheck Start Date</label>
 	<input type="date" class="form-control" name="startDate"/>
@@ -63,7 +78,8 @@
 
 
 <button type="submit" class="btn btn-default" name="submit">Enter</button>
-
-
+</form>
+</div>
+</div>
 </body>
 </html>

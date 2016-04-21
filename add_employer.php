@@ -1,64 +1,96 @@
 <?php
+	include_once("dbutils.php");
+	include_once("config.php");
 	$menuHighlight=2; 
 	$headtitle="Enter Employer";
 	include_once("menu.php");
-	$UserID= $_SESSION['UserID'];
+	session_start();
+	$email= $_SESSION['email'];
 ?>
+<?php
+if (isset($_POST['submit'])) {
 
-<html>
-<head>
-	<title>
-		Add Employer
-	</title>
-
-	<!-- Following three lines are necessary for running Bootstrap -->
+	// get data from the input fields
+	$name = $_POST['name'];
+	$city = $_POST['city'];
+	$state = $_POST['state'];
+	$zip = $_POST['zip'];
+	$wage = $_POST['wage'];
 	
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	// check to make sure we have all fields
+	if (!$name) {
+		header("Location: add_employer.php");
+	}
+	
+	//if (!$city) {
+		//header("Location: add_employer.php");
+	//}
+	//if (!$state) {
+		//header("Location: add_employer.php");
+	//}
+	
+	//if (!$zip) {
+		//header("Location: add_employer.php");
+	//}
+	
+	//if (!$wage) {
+		//header("Location: add_employer.php");
+	//}
+	// connect to database
+	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
+	
+	$query = "SELECT employer FROM Employer WHERE employer='$name';";
+	
+	$result = queryDB($query, $db);
 
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	if(nTuples($result)<1){
+		//insert into employer
+		$query = "INSERT INTO Employer(employer, employerCity, employerState, employerZip) VALUES ('$name', '$city', '$state', '$zip');";
+		$result = queryDB($query, $db);
+	}
+	//get employerID
+	$query = "SELECT EmployerID, UserID FROM Employer, Users WHERE employer='$name' AND email='$email';";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	$row = nextTuple($result);
+	
+	$EmployerID = $row["EmployerID"];
+	
+	$UserID= $row["UserID"];
+	
+	//insert into jobs
+	$query = "INSERT INTO Jobs(UserID, EmployerID, Wage) VALUES ('$UserID', '$EmployerID', '$Wage');";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	
+}
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>	
-
-        <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
-        <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
-
-</head>
-
-<body>
-
-<div class="container" >
-
-<!-- Page header -->
+?>
+<!-- Form to enter Users -->
 <div class="row">
 <div class="col-xs-12">
-<div class="page-header">
-	<h1> Enter Employer </h1>
-	<p><a href="login.php" class="btn btn-primary" role="button">Login</button></a></p>
-</div>
-</div>
-</div>
 
- 
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
 <div class="form-group">
-	<label for="password1">Enter Employer Name</label>
-	<input type="input" class="form-control" Placeholder="Ex) The University of Iowa " name="fname"/>
+	<label for="name">Enter Employer Name</label>
+	<input type="input" class="form-control" Placeholder="Ex) The University of Iowa " name="name"/>
 </div>
 
         
 <div class="form-group">
-	<label for="password1">Enter Employer City</label>
-	<input type="input" class="form-control" Placeholder="Ex) Iowa City" name="fname"/>
+	<label for="city">Enter Employer City</label>
+	<input type="input" class="form-control" Placeholder="Ex) Iowa City" name="city"/>
 </div>
 
-<div class="form-group">
-        <label for="employerstate"> Enter Employer State: </label> 
-</div>
 
-<div class="form-group">
-	
+
+<div class="form-group" name="state">
+	<label for="state"> Enter Employer State: </label>
 	<select>
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
@@ -114,11 +146,18 @@
 </select>
 
 <label for="zip">US Zip code</label>
-<input id="zip" name="zip" pattern="[\d]{5}(-[\d]{4})" placeholder="Ex) xxxxx" >
+<input id="zip" name="zip" placeholder="Ex) xxxxx" >
+</div>
 
+<div class="form-group">
+	<label for="wage">Enter Wage</label>
+	<input type="input" class="form-control" placeholder="Per Hour" name="wage"/>
+</div>
 
 <button type="submit" class="btn btn-default" name="submit">Enter</button>
 
-
+</form>
+</div>
+</div>
 </body>
 </html>

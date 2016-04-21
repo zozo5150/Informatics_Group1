@@ -39,16 +39,16 @@ if (isset($_POST['submit'])) {
 		$row = nextTuple($result);
 		
 		if ($row['hashedPass'] == crypt($password, $row['hashedPass'])) {
+			session_start();
 			// Password is correct
 			if (session_start()) {
-				$_SESSION['email'] = $email;
 				$_SESSION['UserPerm'] = $row['UserPerm'];
 				$_SESSION['UserID'] = $row['UserID'];
 				if ($row['UserPerm'] == 0){
 					header('Location: paycheck.php');
 				}
 				if ($row['UserPerm'] == 1){
-					header('Location: admin.php');
+					header('Location: adminUsers.php');
 				}
 			} else {
 				punt("Unable to create session");
