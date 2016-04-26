@@ -22,6 +22,7 @@ if (isset($_POST['submit'])) {
 		header("Location: add_employer.php");
 	}
 	
+	// NEED TO FIX THE REMAINDER OF THESE CHECKS...	
 	//if (!$city) {
 		//header("Location: add_employer.php");
 	//}
@@ -43,30 +44,24 @@ if (isset($_POST['submit'])) {
 	
 	$result = queryDB($query, $db);
 
-	if(nTuples($result)<1){
+	if(nTuples($result) < 1){
 		//insert into employer
 		$query = "INSERT INTO Employer(employer, employerCity, employerState, employerZip) VALUES ('$name', '$city', '$state', '$zip');";
 		$result = queryDB($query, $db);
-	}
-	//get employerID
-	$query = "SELECT EmployerID, UserID FROM Employer, Users WHERE employer='$name' AND email='$email';";
-	
-	// run the query
-	$result = queryDB($query, $db);
-	
-	$row = nextTuple($result);
-	
-	$EmployerID = $row["EmployerID"];
-	
-	$UserID= $row["UserID"];
-	
+
+		// ONCE THIS IS ADDED TO DB, YOU NEED TO GET A HANDLE
+		// ON EmployerID FOR THE JUST ADDED EMPLOYER. MAY REQUIRE
+		// ANOTHER QUERY/RETRIEVAL.
+
+	} else {
+	    // EMPLOYER EXISTS: GET EmployerID FROM THE QUERY THAT JUST RAN SUCCESSFULLY
+	}	    
+
 	//insert into jobs
-	$query = "INSERT INTO Jobs(UserID, EmployerID, Wage) VALUES ('$UserID', '$EmployerID', '$Wage');";
+	$query = "INSERT INTO Jobs(UserID, EmployerID, Wage) VALUES ('$SESSION_['UserID'], '$EmployerID', '$Wage');";
 	
 	// run the query
 	$result = queryDB($query, $db);
-	
-	
 }
 
 ?>
