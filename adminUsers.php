@@ -1,5 +1,5 @@
 <?php
-	//include_once('adminPermissions.php');
+	include_once('adminPermissions.php');
 	$menuHighlight=0; 
 	$headtitle="Edit Users";
 	include_once('config.php');
