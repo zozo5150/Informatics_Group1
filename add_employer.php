@@ -11,14 +11,14 @@
 if (isset($_POST['submit'])) {
 
 	// get data from the input fields
-	$name = $_POST['name'];
-	$city = $_POST['city'];
-	$state = $_POST['state'];
-	$zip = $_POST['zip'];
-	$wage = $_POST['wage'];
-	
+	$employer = $_POST['name'];
+	$employerCity = $_POST['city'];
+	$employerState = $_POST['state'];
+	$employerZip = $_POST['zip'];
+	$Wage = $_POST['Wage'];
+
 	// check to make sure we have all fields
-	if (!$name) {
+	if (!$employer) {
 		header("Location: add_employer.php");
 	}
 	
@@ -40,28 +40,35 @@ if (isset($_POST['submit'])) {
 	// connect to database
 	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
-	$query = "SELECT employer FROM Employer WHERE employer='$name';";
+	$query = "SELECT EmployerID, employer FROM Employer WHERE employer='$employer';";
 	
 	$result = queryDB($query, $db);
 
 	if(nTuples($result) < 1){
 		//insert into employer
-		$query = "INSERT INTO Employer(employer, employerCity, employerState, employerZip) VALUES ('$name', '$city', '$state', '$zip');";
+		$query = "INSERT INTO Employer(employer, employerCity, employerState, employerZip) VALUES ('$employer', '$employerCity', '$employerState', '$employerZip');";
 		$result = queryDB($query, $db);
 
 		// ONCE THIS IS ADDED TO DB, YOU NEED TO GET A HANDLE
 		// ON EmployerID FOR THE JUST ADDED EMPLOYER. MAY REQUIRE
 		// ANOTHER QUERY/RETRIEVAL.
-
-	} else {
-	    // EMPLOYER EXISTS: GET EmployerID FROM THE QUERY THAT JUST RAN SUCCESSFULLY
-	}	    
-
+		$query = "SELECT EmployerID, employer FROM Employer WHERE employer='$employer';";
+	
+		$result = queryDB($query, $db);
+	}
+	
+	// EMPLOYER EXISTS: GET EmployerID FROM THE QUERY THAT JUST RAN SUCCESSFULLY
+	$row = nextTuple($result);
+	$EmployerID = $row['EmployerID'];
+	
 	//insert into jobs
-	$query = "INSERT INTO Jobs(UserID, EmployerID, Wage) VALUES ('$SESSION_['UserID'], '$EmployerID', '$Wage');";
+	$UserID = $_SESSION['UserID'];
+	$query = "INSERT INTO Jobs(UserID, EmployerID, Wage) VALUES ('$UserID', '$EmployerID', '$Wage');";
 	
 	// run the query
 	$result = queryDB($query, $db);
+	
+	header('Location: add_Hours.php');
 }
 
 ?>
@@ -139,15 +146,18 @@ if (isset($_POST['submit'])) {
 	<option value="WI">Wisconsin</option>
 	<option value="WY">Wyoming</option>
 </select>
-
-<label for="zip">US Zip code</label>
-<input id="zip" name="zip" placeholder="Ex) xxxxx" >
+</div>
+	
+<div class="form-group">
+	<label for="zip">US Zip code</label>
+	<input id="zip" name="zip" placeholder="Ex) xxxxx" >
 </div>
 
 <div class="form-group">
-	<label for="wage">Enter Wage</label>
-	<input type="input" class="form-control" placeholder="Per Hour" name="wage"/>
+	<label for="Wage">Wage in dollars</label>
+	<input id="Wage" name="Wage" placeholder="Ex) 9.35" >
 </div>
+
 
 <button type="submit" class="btn btn-default" name="submit">Enter</button>
 
