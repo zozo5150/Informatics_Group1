@@ -6,9 +6,7 @@
 
 <?php
 // Back to PHP to perform the search if one has been submitted.
-
 if (isset($_POST['submit'])) {
-
 	// get data from the input fields
 	$email = $_POST['email'];
 	$password = $_POST['password'];
@@ -22,13 +20,12 @@ if (isset($_POST['submit'])) {
 	if (!$password) {
 		header("Location: login.php");
 	}
-
 	// check if user is in the database
 	// connect to database
 	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
 	// set up my query
-	$query = "SELECT email, hashedPass, UserPerm FROM Users WHERE email='$email';";
+	$query = "SELECT UserID, email, hashedPass, UserPerm FROM Users WHERE email='$email';";
 	
 	// run the query
 	$result = queryDB($query, $db);
@@ -63,7 +60,6 @@ if (isset($_POST['submit'])) {
 	}	
 	
 }
-
 ?>
 
 <html>
