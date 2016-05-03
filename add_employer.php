@@ -22,21 +22,7 @@ if (isset($_POST['submit'])) {
 		header("Location: add_employer.php");
 	}
 	
-	// NEED TO FIX THE REMAINDER OF THESE CHECKS...	
-	//if (!$city) {
-		//header("Location: add_employer.php");
-	//}
-	//if (!$state) {
-		//header("Location: add_employer.php");
-	//}
-	
-	//if (!$zip) {
-		//header("Location: add_employer.php");
-	//}
-	
-	//if (!$wage) {
-		//header("Location: add_employer.php");
-	//}
+
 	// connect to database
 	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
