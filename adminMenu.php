@@ -31,12 +31,12 @@
 		<ul class="nav nav-pills">
 
     <!-- MenuBar --> 
-
+	
+		<li<?php if($menuHighlight == 2) { echo ' class="active"';} ?>> <a href="adminNPO.php">Create NPO Account</a></li>
+		
 		<li<?php if($menuHighlight == 0) { echo ' class="active"';} ?>> <a href="adminUsers.php">Users</a></li>
 
 		<li<?php if($menuHighlight == 1) { echo ' class="active"';} ?>> <a href="adminEmployers.php">Employers</a></li>
-
-		<li<?php if($menuHighlight == 2) { echo ' class="active"';} ?>> <a href="adminJobs.php">Jobs</a></li>
     
 		<li<?php if($menuHighlight == 3) { echo ' class="active"';} ?>> <a href="adminPaychecks.php">Paychecks</a></li>
     
