@@ -6,7 +6,7 @@
 // Connect to DB: config.php contains DB configuration.
 function connectDB($dbhost,$dbuser,$dbpasswd,$dbname) {
   $db = mysqli_connect($dbhost,$dbuser,$dbpasswd,$dbname);
-  if (mysqli_connect_errno() != 0)
+  if (mysqli_connect_error() != 0)
     punt("Can't connect to MySQL server $dbhost db $dbname as user $dbuser");
   return($db);
 }
