@@ -2,61 +2,98 @@
 <?php
 	$menuHighlight=3; 
 	$headtitle="Paycheck History";
+	include_once('config.php');
+	include_once('dbutils.php');
+	include_once("jobList.php");
 	include_once("menu.php");
 ?>
 
+<div class="row">
+<div class="col-xs-12">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
-<html>
+<div class="container" >
 
-<head>
-	<title>
-		<?php echo $title; ?>
-	</title>
+
+<div class="form-group">
+	<label for="job">Employer</label>
+	<select class="form-control" name="job">
+	<?php echo $jobOptions; ?>
+	</select>
+</div>
+</div>
+<button type="submit" class="btn btn-default" name="submit">Select</button>
+<table class="table table-hover">
+</form>
+<!-- Titles for table -->
+<thead>
+<tr>
+	<th>Date Range</th>
+	<th>Hours Reported</th>
+	<th>Hours On Paycheck</th>
+	<th>Amount Paid</th>
+	<th></th>
+</tr>
+</thead>
+<tbody>
+
+<?php
+if (isset($_POST['submit'])) {
 	
-	<!-- This is the code for using Bootstrap, linking to Bootstrap's css and javascript -->
-	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	$JobID=$_POST['job'];
+	// connect to database
+	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
-</head>
-
-
-<body>
-	<div class="container">
-
-	<!-- Header -->
-	<div class="row">
-	<div class="col-sm-12">
-	<div class="page-header">
-		<h1><?php echo $title; ?></h1>
-	</div>
-	</div>
-	</div>
+	//get wage
+	$query= "SELECT Wage FROM Jobs WHERE JobID='$JobID';";
+	
+	$wage = queryDB($query, $db);
+	
+	$UserID = $_SESSION['UserID'];
+	echo $UserID;
+	// set up my query for paycheck
+	$query = "SELECT PaycheckID, PayStart, PayEnd, PaycheckHours, AmountPaid FROM Paycheck WHERE JobID='$JobID';";
+	
+	// run the query
+	$result = queryDB($query, $db);
 	
 	
-	<div class="row">
-            <div class="col-sm-9 col-xs-9">
-            <!-- Content-->
-            <p>
-              
-	     <!--titles for table --> 
-	<table> 
-		<tr> 
-		<td> Artist Name </td> 
-		<td> Song Title </td> 
-		<td> Song Year </td> 
-		</tr> 
-	</table>
-	        
-            </p>
+	while($row = nextTuple($result)) {
+		echo "<tr>";
+		
+		//show range of dates
+		echo "<td>".$row['PayStart']."-".$row['PayEnd']."</td>";
+		$result = queryDB($query, $db);
+		
+		//NOT WORKING
+		//sum hours in a period
+		//$query= "SELECT SUM(hoursReported) FROM Hours WHERE JobID='$JobID' AND (workDate BETWEEN '".$row['PayStart']."' AND '".$row['PayEnd'] "');";
+		//$hours = queryDB($query, $db);
+		//echo "<td>".$hours."</td>";
 		
 		
-	</div>
-	</body>
-	
-	
+		echo "<td>".$row['PaycheckHours']."</td>";
+		echo "<td>$".$row['AmountPaid']."</td>";
+		
+		//if being underpaid, give option to submit claim
+		//if($wage*$hours)!>=$row['AmountPaid']{
+			//echo "<td><a href='claim.php'><img src='flag_red.png' alt='File Claim' width='20' height='20'></a></td>";
+		//}
+		//else{
+			//echo "<td><img src='check_mark.png' alt=''></td>";
+		//}
+		echo "</tr>";
+		echo "</form>";
+	}
+}
+?>
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+</div> <!-- closing bootstrap container -->
+</body>
+</html>

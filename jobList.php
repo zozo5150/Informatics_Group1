@@ -4,15 +4,9 @@
 	// connect to database
 	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
 	
-	//get employerID
-	$query = "SELECT UserID FROM Users WHERE email='$email';";
+	SESSION_START();
 	
-	// run the query
-	$result = queryDB($query, $db);
-	
-	$row = nextTuple($result);
-	
-	$UserID = $row["UserID"];
+	$UserID = $_SESSION['UserID'];
 	
 	// set up my query
 	$query = "SELECT j.JobID AS JobID, e.employer AS employer FROM Employer e, Jobs j WHERE j.EmployerID= e.EmployerID AND j.UserID= '$UserID';";

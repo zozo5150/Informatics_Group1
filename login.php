@@ -7,19 +7,20 @@
 <?php
 // Back to PHP to perform the search if one has been submitted.
 if (isset($_POST['submit'])) {
+
 	// get data from the input fields
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-	
 	
 	// check to make sure we have an email
 	if (!$email) {
 		header("Location: login.php");
 	}
-	
+
 	if (!$password) {
 		header("Location: login.php");
 	}
+
 	// check if user is in the database
 	// connect to database
 	$db = connectDB($dbhost,$dbuser,$dbpasswd,$dbname);
@@ -58,7 +59,6 @@ if (isset($_POST['submit'])) {
 	} else {
 		punt("The account with email '$email' does not exist");
 	}	
-	
 }
 ?>
 

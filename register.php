@@ -87,6 +87,9 @@ if (isset($_POST['submit'])) {
 	// run the query
 	$result = queryDB($query, $db);
 	
+	$query = "SELECT UserID FROM Users WHERE email='$email';";
+	
+	$_SESSION['UserID'] = queryDB($query, $db);
 	//Go to add job page
 	header('Location: add_employer.php');
 	
