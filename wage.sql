@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Claims;
+
 DROP TABLE IF EXISTS Paycheck;
 DROP TABLE IF EXISTS Hours ;
 DROP TABLE IF EXISTS Jobs ;
@@ -59,18 +59,9 @@ CREATE TABLE Paycheck
 	JobID INT,
 	PaycheckHours decimal(4,2),
 	PayStart date, 
-	PayEnd date, 
+	PayEnd date,
+        Claim boolean default false,
 	AmountPaid decimal(5,2), 
 	PRIMARY KEY (PaycheckID),
 	FOREIGN KEY (JobID) REFERENCES Jobs(JobID) ON DELETE CASCADE ON UPDATE CASCADE
 ); 
-
-CREATE TABLE Claims
-(
-	ClaimID INT AUTO_INCREMENT,
-	JobID INT,
-	PaycheckID INT,
-	PRIMARY KEY (ClaimID),
-	FOREIGN KEY (JobID) REFERENCES Jobs(JobID) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (PaycheckID) REFERENCES Paycheck(PaycheckID) ON DELETE CASCADE ON UPDATE CASCADE
-);
